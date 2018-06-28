@@ -539,10 +539,17 @@ function vendorChanged () {
   }
 
   if (vendorPrices[vendor]) {
-    var buyoutPrice = findNode('[role="buyout-price"]')
+    const buyoutPrice = findNode('[role="buyout-price"]')
+    const price = vendorPrices[vendor]
 
     if (buyoutPrice) {
-      buyoutPrice.textContent = '$' + (vendorPrices[vendor].total / 100).toFixed(2)
+      buyoutPrice.textContent = '$' + (price.total / 100).toFixed(2)
+    }
+
+    const buyoutAmount = findNode('[role="buyout-amount"]')
+
+    if (buyoutAmount) {
+      buyoutAmount.value = price.total
     }
   }
 }
