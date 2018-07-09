@@ -1,0 +1,32 @@
+h2{
+	text-align: center
+}
+
+ul.poll li{
+	list-style: none;
+	margin-bottom: 5px;
+}
+
+ul{
+	margin-bottom: 25px;
+}
+
+.panel ul, .panel ol{
+	padding-left: 0px;
+	text-align: left
+}
+.vote{
+	min-height: 200px;
+}
+
+.vote p{
+	text-align: center
+}
+
+.countdown{
+	text-align: center
+}
+
+.panel{
+	text-align: center
+}
