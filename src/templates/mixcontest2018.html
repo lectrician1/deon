@@ -1,92 +1,17 @@
 <script type="text/html"
-		data-route="mixcontest2018"
+        data-route="^[Mm]ix[Cc]ontest2018"
+        data-title="Monstercat Mix Contest 2018"
 		data-process="processMixContest2018Page"
 		data-template="mixcontest2018"
 		>
 
-<div class="container">
-
-   {{#if loading}}
+	{{#if loading}}
         {{>loading-view-black}}
     {{else}}
-        <div class="top-banner">
-            <div class="banner banner--scaled">
-                <div class="banner" style='background-image:url({{backgroundImg}})'>
-                    <div class="banner-shade"></div>
-                    <div class="gradient"></div>
-                </div>
-            </div>
-            <div class="container flex">
-                <div class="col-xs-12 col-sm-12 col-md-4 featured-artwork">
-                    <img src="{{art}}"
-                    class="shadow responsive"
-                    style="cursor: pointer;"
-                    onclick="openReleaseArt(event, this)"
-                    big-src="{{art}}"/>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-8 cl-white featured-details">
-                    <h1 class="title uppercase">{{titleName}}</h1>
-                    <h3>{{artists}}</h3>
-                   	
-                </div>
-            </div>
-        </div>
-		
-		<div class="flex sign-split">
-        <div class="col-xs-12 col-md-4 panel vote">
-        	<h2>
-        	{{#if votingOpen}}
-        		{{#if hasVoted}}
-        			You've already voted!
-        		{{else}}
-        			{{poll.question}}
-        		{{/if}}
-        	{{else}}
-        		The voting hasn't started yet!
-        	{{/if}}</h2>
 
-        	{{#if votingOpen}}
-				<div class="voting-area">
-					{{#if hasVoted}}
-					<p>Thanks for voting! Stay tuned for the next round.</p>
-					{{else}}
-					<p>Voting closes in: 
-						<div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div> <br>
-					</p>
-					<form onsubmit="submitMixContestVotes2018(event)">
-					<ul class='poll'>
-						{{#each poll.choices}}
-						<li><label><input type="checkbox" name="choices[{{@index}}]" id="checkbox"> {{.}}</input></label></li>
-						{{/each}}
-					</ul>
-					
-						{{#if loggedIn}}
-						<button>Submit</button>
-						{{else}}
-						<a href="/sign-in">sign in</a>
-						{{/if}}
-					{{/if}}
-
-					</form>
-				</div>
-			{{else}}
-
-			{{#if showStartDate}}
-				<p>Voting opens in:  
-					<div class="countdown" show-days="1" role="countdown" to="{{poll.start}}"></div>
-				</p>
-			{{/if}}
-		{{/if}}
-		</div>
-
-		<div class="col-xs-12 col-md-4 panel">
-			<h2>Win some cool headphones!</h2>
-			<a href="#" class="button button--black">Enter Contest</a>
-		</div>
-   </div>
-		
+    <div class="mc2018-cta mc2018-comingsoon cl-white">
+        <h2>Monstercat Mix Contest 2018</h2>
+        <h3>Voting Page Coming Soon!</h3>
+    </div>
 {{/if}}
-</div>
 </script>
-
-
