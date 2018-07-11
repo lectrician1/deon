@@ -1,6 +1,76 @@
 <script type="text/html"
-        data-route="^[Mm]ix[Cc]ontest2018"
-        data-title="Monstercat Mix Contest 2018"
+		data-partial
+		data-template="mixcontest2018-track"
+		>
+
+{{#if loading}}
+	{{>loading-view-black}}
+{{else}}
+	{{#data}}
+<div class="top-banner">
+
+	<div class="banner banner--scaled">
+	    <div class="banner" style='background-image:url(img/mixcontest2018.jpg)'>
+	        <div class="banner-shade"></div>
+	        <div class="gradient"></div>
+	    </div>
+	</div>
+
+    <div class="container flex">
+        <div class="col-xs-12 col-sm-12 col-md-4 featured-artwork">
+        	<img src="{{#release}}{{coverUrl}}{{/release}}"
+            class="shadow responsive"
+            style="cursor: pointer;"
+            onclick="openReleaseArt(event, this)"
+            big-src="{{#release}}{{coverUrl}}{{/release}}"/>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 cl-white featured-details">
+            <h1 class="title uppercase">Monstercat Mix Contest 2018</h1>
+            <p class="date">A unique contest where 8 DJ's battle their way to victory. You decide who will advance each week. Listen and cast your vote below!</p>
+            <div role="mixcontest2018-track">
+                <table class="mixcontest2018-cotw">
+                    <tbody>
+                        <tr dblc-action="playSongDblC">
+                            <td class="shrink col-xs-hidden col-md-visible"></td>
+                            <td class="shrink nohpad">
+                              {{>play-song}}
+                            </td>
+                            <td class="longer-width">
+                              <div class="scroll-container"
+                                   onmouseenter="scrollTrackTitle(this)" onmouseleave="removeScrollTrackTitle(this)">
+                                <span class="scroll-title artists">{{title}}</span>
+                              </div>
+                            </td>
+                            <td class="col-xs-hidden col-md-visible">{{time}}</td> 
+                            <td class="push-right">
+                                {{>track-buttons}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+	</div>
+	{{/data}}
+{{/if}}
+</script>
+
+<script type="text/html"
+		data-partial
+		data-template="mixcontest2018-cotw-episode"
+		>
+
+{{#if loading}}
+        {{>loading-view-black}}
+{{else}}
+	{{>podcast-list}}
+{{/if}}	
+
+</script>
+
+<script type="text/html"
+		data-route="mixcontest2018"
 		data-process="processMixContest2018Page"
 		data-template="mixcontest2018"
 		>
@@ -9,9 +79,92 @@
         {{>loading-view-black}}
     {{else}}
 
-    <div class="mc2018-cta mc2018-comingsoon cl-white">
-        <h2>Monstercat Mix Contest 2018</h2>
-        <h3>Voting Page Coming Soon!</h3>
+            <div role="mixcontest2018-track">
+            {{#track}}
+           		{{>mixcontest2018-track}}
+           	{{/track}}
+           	</div>
+
+
+        <div class="container mixcontest">
+			<div class="flex sign-split">
+		        <div class="col-xs-12 col-md-4 panel vote">
+		        	<h2>
+		        	{{#if votingOpen}}
+		        		{{#if hasVoted}}
+		        			You've already voted!
+		        		{{else}}
+		        			{{poll.question}}
+		        		{{/if}}
+		        	{{else}}
+		        		The voting hasn't started yet!
+		        	{{/if}}</h2>
+
+		        	{{#if votingOpen}}
+						<div class="voting-area">
+							{{#if hasVoted}}
+								<p>Thanks for voting! Stay tuned for the next round.</p>
+							{{else}}
+								<p>Voting closes in: 
+									<div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div> <br>
+								</p>
+								<form onsubmit="submitMixContestVotes2018(event)">
+									<ul class='poll'>
+									{{#each poll.choices}}
+										<li><label><input type="checkbox" name="choices[{{@index}}]" id="checkbox" class=check"> {{.}}</input></label></li>
+									{{/each}}
+									</ul>
+								{{#if loggedIn}}
+									<button>Submit</button>
+								{{else}}
+									<a href="/sign-in">sign in</a>
+								{{/if}}
+							{{/if}}
+								</form>
+						</div>
+					{{else}}
+
+					{{#if showStartDate}}
+						<p>Voting opens in:  
+						<div class="countdown" show-days="1" role="countdown" to="{{poll.start}}"></div>
+					{{/if}}
+				{{/if}}
+				</div>
+
+				<div class="col-xs-12 col-md-4 panel">
+					<h2>Made Possible By</h2>
+					<div class="row">
+					</div>
+					<h3>Sign up to the Pioneer DJ Newsletter</h3><br>
+					<a href="#" class="button button--black">Sign Up</a>
+				</div>
+			</div>	
+	{{/if}}	
+    <div class="footer-cta footer-cta--sponsor cl-white">
+        <h2>Made Possible By</h2>
+        <img src="img/mc2018-splice.png">
+        <img src="img/mc2018-pioneerdj.png">
+        <img src="img/mc2018-cotw.png">
+        <img src="img/mc2018-monstercat.png">
     </div>
-{{/if}}
+		    <section class="podcast" style="margin-top:1rem">
+		    	<header class="flex top-cta">
+					<div class="col-xs-6">
+						<h2 class="line-top">Radio Show</h2>
+					</div>
+					<div class="col-xs-6 text right">
+						<a href="/cotw" class="button button--black button--icon button--transparent">
+							View all
+							<i class="fa fa-chevron-right"></i>
+						</a>
+					</div>
+				</header>
+				<div role="mixcontest-cotw-episodes">
+					{{#cotwEpisodes}}
+						{{>mixcontest2018-cotw-episode}}
+					{{/cotwEpisodes}}
+				</div>
+		    </section>
+
+		</div>
 </script>
