@@ -1,5 +1,5 @@
 <script type="text/template"
-        data-route="^account\/services\/?(\?.*)?$"
+        data-route="^account\/services-old\/?(\?.*)?$"
         data-template="account-services-page"
         data-process="processServicesPage"
         data-title="Account Services"
@@ -332,7 +332,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/processing"
+        data-route="^account\/services-old\/processing"
         data-process="processServicesProcessingPage"
         data-template="services-processing-page"
         >
@@ -343,7 +343,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/subscribed"
+        data-route="^account\/services-old\/subscribed"
         data-process="processServicesRedirectPage"
         >
     <div class="container">
@@ -353,7 +353,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/unsubscribed\/?"
+        data-route="^account\/services-old\/unsubscribed\/?"
         data-process="processServicesRedirectPage">
     <div class="container">
         <h1>Unsubscribed</h1>
@@ -363,7 +363,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 
 <script type="text/template"
         data-process="processCanceledPayment"
-        data-route="^account\/services\/canceled-payment\/?$">
+        data-route="^account\/services-old\/canceled-payment\/?$">
     <div class="container">
         <h1>Payment Canceled</h1>
         <p>The payment has been canceled. Go back to <a href="{{returnUrl}}">{{returnLabel}}</a>.</p>
@@ -371,7 +371,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/buyout\/purchased\/?"
+        data-route="^account\/services-old\/buyout\/purchased\/?"
         data-title="Purchased Whitelist"
         completed="redirectServices">
     <div class="container">
@@ -381,7 +381,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="account\/services\/error"
+        data-route="account\/services-old\/error"
         data-title="Payment Error">
     <div class="container">
         <h1>An error occured.</h1>
@@ -418,7 +418,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/buyout\/?(\?.*)?$"
+        data-route="^account\/services-old\/buyout\/?(\?.*)?$"
         data-process="processBuyWhitelistPage"
         data-title="Purchase Whitelist"
         data-template="buy-whitelist-page"
@@ -468,7 +468,7 @@ Already have an account? <a class="switch-sign-on" onclick="servicesChangeSignOn
 </script>
 
 <script type="text/template"
-        data-route="^account\/services\/buyout\/(.+)$"
+        data-route="^account\/services-old\/buyout\/(.+)$"
         data-process="processServicesBuyoutPage"
         data-source="$endpoint/self/whitelist/$1"
         data-title="Whitelist Prepay"

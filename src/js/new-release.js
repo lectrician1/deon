@@ -253,7 +253,7 @@ function processReleasePage (args) {
             completedReleasePage()
           }
 
-          if (document.body.clientWidth > 767) {
+          if (!isMobileBrowser()) {
             scope.activeTest = 'releasePurchaseNames'
             splittests.releasePurchaseNames = new SplitTest({
               name: 'release-purchase-names',

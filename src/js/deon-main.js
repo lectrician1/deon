@@ -65,6 +65,30 @@ document.addEventListener("DOMContentLoaded", (e) => {
     trackUser()
     renderHeader()
     renderHeaderMobile()
+
+    document.addEventListener("click", (e) => {
+      const t = e.target
+      const goldLink = findParentOrSelf(t, 'a[href^="/gold"]')
+      if (goldLink && goldLink.dataset.redirectUrl) {
+        const expiresDays = (60*10)/86400 //10 minutes
+        let label
+        let url
+
+        if (goldLink.dataset.redirectUrl == 'auto') {
+          url = window.location.pathname + window.location.search
+          label = document.title.replace(' - Monstercat', '')
+        }
+        else {
+          label = goldLink.dataset.redirectLabel
+          url = goldLink.dataset.redirectUrl
+        }
+        if (url.substr(0, 5) != '/gold') {
+          setCookie(COOKIES.GOLD_BUY_REDIRECT_LABEL, label, expiresDays)
+          setCookie(COOKIES.GOLD_BUY_REDIRECT_URL, url , expiresDays)
+        }
+      }
+    })
+
     document.addEventListener("click", interceptClick)
     //document.addEventListener("dblclick", interceptDoubleClick)
     //document.addEventListener("keypress", interceptKeyPress)
@@ -211,6 +235,10 @@ function hasGoldAccess () {
   if (!isSignedIn()) { return false }
   // TODO remove temporary support for old checks
   return !!session.user.goldService || hasLegacyAccess()
+}
+
+function hasSubscriptions () {
+  return hasGoldAccess() //|| hasWhiteListSubscriptionMaybeIfWeStillHaveWhitelists()
 }
 
 function hasFreeGold () {

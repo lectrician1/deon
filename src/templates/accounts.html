@@ -396,10 +396,10 @@
                                     {{#if hasFreeGold}}
                                         you have a free Gold subscription.
                                     {{else}}
-                                        you've been Gold for {{gold.months}} month<span class="s" num="{{gold.months}}"></span>. {{thankYou}}
+                                        you've been Gold for {{gold.usedMonths}} month<span class="s" num="{{gold.usedMonths}}"></span>. {{thankYou}}
                                     {{/if}}</p>
                             {{else}}
-                                <p>Hey {{displayName}}, to use these features you'll need to <a href="/gold/buy">get Gold</a>.</p>
+                                <p>Hey {{displayName}}, to use these features you'll need to <a href="/gold/buy" data-redirect-url="auto">get Gold</a>.</p>
                             {{/if}}
                         {{else}}
                             <h1>Gold Features</h1>
@@ -408,7 +408,7 @@
                         {{/if}}
 
                         {{^hasGoldAccess}}
-                            <br /><a href="/gold/buy" class="button button--gold button--icon">Get Gold  <i class="fa fa-chevron-right"></i></a>
+                            <br /><a href="/gold/buy" data-redirect-url="auto" class="button button--gold button--icon">Get Gold  <i class="fa fa-chevron-right"></i></a>
                             {{^isSignedIn}}
                                 <span class="or">or</span>
                                 <a href="/sign-in?redirect=%2Faccount%2Fgold" class="button button--cta-outline">Sign In</a>
@@ -516,7 +516,7 @@
                     <i class="fa fa-chevron-right"></i>
                 </a>
             {{else}}
-                <a href="/gold/buy" class="button button--gold-dark pull-right">Upgrade to Gold</a>
+                <a href="/gold/buy" data-redirect-url="auto" class="button button--gold-dark pull-right">Upgrade to Gold</a>
             {{/if}}
         {{/data}}
         <h1>My Account</h1>

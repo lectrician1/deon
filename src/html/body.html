@@ -186,7 +186,7 @@ window.fbAsyncInit = function() {
             <li><a class="silent" href="/press">Press</a></li>
             <li><a class="silent" href="/publishing">Publishing</a></li>
             <li><a class="silent" href="/licensing">Licensing</a></li>
-            <li><a class="silent" href="/gold">Gold</a></li>
+            <li><a class="silent" href="/gold" data-redirect-url="auto">Gold</a></li>
             <li><a class="silent" href="/dev">Dev</a></li>
             <li><a class="silent" href="/dev/bounties">Bounties</a></li>
         </ul>
@@ -313,7 +313,7 @@ window.fbAsyncInit = function() {
 <script type="text/template" data-template="error" data-partial>
     <div class="container">
         <div class="errors-container">
-            {{message}}
+            {{err.message}}
         </div>
     </div>
 </script>

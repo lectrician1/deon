@@ -155,6 +155,18 @@
 .p-0 {
   padding: 0px !important;
 }
+.p-1 {
+  padding: 0.5rem !important;
+}
+.p-2 {
+  padding: 1rem !important;
+}
+.p-3 {
+  padding: 1.5rem !important;
+}
+.p-4 {
+  padding: 2rem !important;
+}
 
 .position-relative {
   position: relative;

@@ -1,232 +1,127 @@
-function transformGoldBuyPage (obj, done) {
-  obj = obj || {};
-  obj.goldSubscribe = transformGoldSubscribeForm();
-  return obj;
-}
-
-function completedGoldBuyPage () {
-  initLocationAutoComplete();
-}
-
-function processGoldBuyPage (args) {
-  renderContent('gold-buy-page', {
-    goldSubscribe: transformGoldSubscribeForm()
-  })
-  completedGoldBuyPage()
-}
-
-/**
- * Gives you the variables needed to render a gold subscribe form
- */
-function transformGoldSubscribeForm (obj) {
-  obj = obj || {}
-  obj.isSignedIn = isSignedIn();
-  obj.hasGold = hasGoldAccess();
-  submitCheckoutGold.subs = [{type: 'gold', name: 'Gold Membership', amount: 500}];
-
-  return obj;
-}
-
-function enableGoldCheckoutForm () {
-  var checkoutButton = document.querySelector('[role=checkout]');
-  checkoutButton.disabled = false;
-  checkoutButton.textContent = 'Complete Checkout'
-}
-
-function submitCheckoutGold (e) {
-  e.preventDefault();
-  var form = e.target;
-  var data = getDataSet(form);
-
-  var checkoutButton = document.querySelector('[role=checkout]');
-  var checkoutText = checkoutButton.textContent;
-  checkoutButton.disabled = true;
-  checkoutButton.innerHTML = 'Loading...'
-
-  var checkout = function () {
-    var paymentMethod = data.method;
-    submitCheckoutGold[paymentMethod]();
-  }
-
-  if(isSignedIn()) {
-    checkout();
-  }
-  else {
-    var signOnMethod = data['sign-on-method'];
-    var signOnContainer = document.querySelector('[role=sign-on-form]');
-    //After successfully signin in or signup either through us, Facebook, or Google, this is checked
-    var signOnCallback = function (err, obj, xhr) {
-      if(err) {
-        enableGoldCheckoutForm();
-        return toasty(new Error(err.message));
+function processPaymentReceivedPage (args) {
+  let redirectTo = getCookie(COOKIES.GOLD_BUY_REDIRECT_URL) || '/'
+  let redirectLabel = getCookie(COOKIES.GOLD_BUY_REDIRECT_LABEL) || 'Home'
+  templatePageProcessor('payment-received-page', args, {
+    transform: () => {
+      return {
+        redirectTo: redirectTo,
+        redirectLabel: redirectLabel
       }
-      signOnContainer.classList.toggle('hide', true);
-      //onSignIn will update their session information and rerender headers and the like
-      onSignIn(function () {
-        //This will look at their current gold subscription from the server
-        getUserServicesScope(function (err, opts) {
-          if(err) {
-            return window.alert(err.message);
-          }
-          //If they can't subscribe we don't let them continue
-          //This can happen if they already have a subscription or they have free gold
-          if(!opts.user.gold.canSubscribe){
-            toasty('You already have a Gold subscription. Going to your services...');
-            go('/account/services');
-            return
-          }
-          if(signOnMethod == 'sign-up') {
-            toasty('Account created! Continuing...')
-          }
-          else {
-            toasty('Signed in! Continuing...')
-          }
-          checkout();
-        });
-      });
-    }
-
-    if(signOnMethod == 'sign-up') {
-      data = transformSubmittedAccountData(data);
-      var errors = validateSignUp(data, []);
-      if(data.password != data.password_confirm) {
-        errors.push('Passwords don\'t match');
-      }
-      if(errors.length > 0) {
-        formErrors(form, errors)
-        enableGoldCheckoutForm();
-        return
-      }
-      signUp(data, '/signup', signOnCallback);
-    }
-    else {
-      signIn(data, signOnCallback);
-    }
-
-  }
-}
-submitCheckoutGold.paypal = function () {
-  requestJSON({
-    url: endpoint + '/self/subscription/services',
-    method: 'POST',
-    withCredentials: true,
-    data: {
-      provider: 'paypal',
-      returnUrl: location.origin + '/account/services/processing?type=gold',
-      cancelUrl: location.origin + '/account/services/canceled-payment?type=gold',
-      services: submitCheckoutGold.subs
-    }
-  }, function (err, body, xhr) {
-    if (err) {
-      return recordErrorAndAlert(err, 'Checkout Subscriptions PayPal')
-    }
-    if (!body.redirect) {
-      return recordErrorAndGo(Error('Missing paypal redirect'), 'Checkout Subscriptions PayPal', '/account/services/error')
-    }
-    recordSubscriptionEvent('PayPal Successful');
-    window.location = body.redirect
-  })
-}
-
-submitCheckoutGold.stripe = function () {
-  var handler = StripeCheckout.configure({
-    key: STRIPE_PK,
-    image: '/img/default.png',
-    locale: 'auto',
-    token: function(token) {
-      requestJSON({
-        url: endpoint + '/self/subscription/services',
-        method: 'POST',
-        withCredentials: true,
-        data: {
-          provider: 'stripe',
-          token: token.id,
-          services: submitCheckoutGold.subs
-        }
-      }, function (err, body, xhr) {
-        if (err) return recordErrorAndAlert(err, 'Checkout Subscriptions Stripe')
-        go('/account/services/subscribed?type=gold');
-      })
     },
-    closed: function () {
-      enableGoldCheckoutForm();
-    },
-    opened: function () {
-      enableGoldCheckoutForm();
+    completed: () => {
+      setTimeout(() => {
+        go(redirectTo)
+      }, 5000)
     }
-  })
-  handler.open({
-    name: 'Monstercat',
-    description: 'Monstercat Gold',
-    amount: submitCheckoutGold.subs[0].amount,
-    email: session.user.email,
-    panelLabel: "Subscribe {{amount}}"
   })
 }
 
-function submitGoldApplyCoupon (e) {
-  var form = e.target;
-  e.preventDefault();
-  var data = formToObject(form);
-  if(!data.trialCode) {
+function processSubscriptionsPage (args) {
+  const scope = {
+    loading: true
+  }
+
+  if (!isSignedIn()) {
+    go('/signin')
     return
   }
 
-  var button = form.querySelector("[role=apply-coupon]");
-  button.disabled = true;
-  button.textContent = 'Loading';
+  scope.xsollaIframeSrc = ''
+  scope.hasSubscriptions = hasSubscriptions()
+  renderContent('subscriptions-page', scope)
 
-  return requestJSON({
-    url: endpoint + "/self/services/gold/code/" + data.trialCode,
-    withCredentials: true
-  }, function (err, obj, xhr) {
-    button.disabled = false
-    button.textContent = 'Apply'
-    if (xhr.status == 404) return toasty(new Error(strings.codeNotFound))
-    if (err) return toasty( new Error(err.message))
-    if (!obj) return toasty( new Error(strings.error))
-    if (!obj.valid) return toasty( new Error(strings.codeNotValid))
-    var priceAreaEl = document.querySelector('.price-area');
-    var freeDaysEl = document.querySelector('[role=trial-free-days]');
-    freeDaysEl.innerHTML = obj.durationDays + ' days free';
-    priceAreaEl.classList.toggle('coupon-code', true);
-    priceAreaEl.classList.toggle('no-auto-renew', !obj.autoRenews);
-    submitCheckoutGold.subs[0].amount = 0;
-    submitCheckoutGold.subs[0].trialCode = obj.code;
-    button.textContent = 'Done!'
-    button.disabled = true;
-    toasty('Coupon code applied!')
-  });
+  const tokenType = scope.hasSubscriptions ? "subscriptions" : 'gold'
+
+  generateXsollaIframeSrc(tokenType, {}, (err, src) => {
+    if (err) {
+      renderError(err)
+      return
+    }
+    scope.loading = false
+    scope.xsollaIframeSrc = src
+    renderContent('subscriptions-page', scope)
+    setXsollaIframesLoading()
+  })
 }
 
-function clickGoldSetSignOn (e, method) {
-  var elements = document.querySelectorAll('[sign-on]');
-  elements.forEach(function (el) {
-    el.classList.toggle('hide', el.getAttribute('sign-on') != method)
-  });
+function processGoldBuyPage (args) {
+  const scope = {
+    loading: true
+  }
 
-  document.querySelector('[name=sign-on-method]').value = method;
+  if (!isSignedIn()) {
+    go('/sign-up?redirectTo=' + encodeURIComponent('/gold/buy') + '&continueTo=Buy%20Gold')
+    return
+  }
+
+  scope.xsollaIframeSrc = ''
+  scope.isSignedIn = isSignedIn()
+  scope.hasGold = hasGoldAccess()
+
+  renderContent('gold-buy-page', scope)
+
+  const redirectTo = getCookie(COOKIES.GOLD_BUY_REDIRECT_URL)
+  const opts =  {}
+
+  if (redirectTo) {
+    opts.return_url = window.location.origin + redirectTo
+  }
+
+  generateXsollaIframeSrc('gold', opts, (err, src) => {
+    if (err) {
+      renderError(err)
+      return
+    }
+    scope.loading = false
+    scope.xsollaIframeSrc = src
+    renderContent('gold-buy-page', scope)
+    setXsollaIframesLoading()
+  })
 }
 
-function transformGoldSubscription (obj) {
-  var nobj = {
-    nextBillingDate: formatDate(obj.availableUntil),
+function generateXsollaIframeSrc (type, opts, done) {
+  generateXsollaToken(type, opts, (err, token) => {
+    if (err) {
+      return done(err)
+    }
+
+    done(null, `${XSOLLA_PAYSTATION_URL}?access_token=${token}`)
+  })
+}
+
+/**
+ * Generates an xsolla token from the server that is used to render certain iframes
+ * for xsolla pages
+ *
+ * @param {String} type The type of token. eg: 'gold', 'subscriptions'
+ * @param {transactionCallback} done
+ */
+function generateXsollaToken (type, opts, done) {
+  let data = {
+    return_url: window.location.protocol + '//' + window.location.host + '/payment-received',
+    device: isXsollaMobileBrowser() ? 'mobile' : 'desktop'
   }
-  if (!obj.subscriptionActive) {
-    nobj.canceled = true;
-    nobj.endDate = formatDate(obj.availableUntil);
-  }
-  else{
-    nobj.canceled = false;
-  }
-  return nobj
+
+  data = Object.assign(data, opts)
+
+  request({
+    method: 'POST',
+    withCredentials: true,
+    data: data,
+    url: endpoint + '/xsolla/token/' + type
+  }, (err, result) => {
+    if (err) {
+      done(err)
+      return
+    }
+
+    done(null, result.token)
+  })
 }
 
 function processGoldPage (args) {
-  console.log('args', args)
   processor(args, {
     start: function (args) {
-      console.log('start')
       const scope = {}
       let featureBlocks = []
 
@@ -286,9 +181,7 @@ function processGoldPage (args) {
       else {
         scope.redditUsername = false
       }
-      console.log('args.template', args.template)
-      console.log('args.node', args.node)
-      console.log('scope', scope)
+
       renderContent(args.template, scope)
     }
   })
