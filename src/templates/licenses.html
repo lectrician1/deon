@@ -1,0 +1,45 @@
+<script type="text/html"
+        data-route="^account/licenses"
+        data-source="$endpoint/self/whitelist"
+        data-process="processAccountLicensesPage"
+        data-template="account-licenses-page"
+        >
+<div class="container">
+  <div class="panel">
+    <h1>Your Licenses</h1>
+    {{#data}}
+      {{#if licenses.length}}
+        <ul>
+          {{#each licenses}}
+            <li>{{vendor}}{{identity}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        No licenses.
+      {{/if}}
+    {{/data}}
+  </div>
+
+  <div class="panel">
+    <h2>Add a License</h2>
+    <form onsubmit="submitAddLicense(event, this)">
+    <select name="vendor">
+      <option value=""></option>
+      <option value="YouTube">YouTube</option>
+      <option value="Twitch">Twitch</option>
+      <option value="Beam">Mixer</option>
+    </select>
+    <div>
+      <select name="category">
+        <option></option>
+        <option value="music">Music Channel</option>
+        <option value="business">Business</option>
+        <option value="none">None of the above</option>
+      </select>
+    </div>
+    <input type="text" name="identity" />
+      {{>submit-button}}
+    </form>
+  </div>
+</div>
+</script>

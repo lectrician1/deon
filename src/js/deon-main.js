@@ -82,7 +82,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
           label = goldLink.dataset.redirectLabel
           url = goldLink.dataset.redirectUrl
         }
-        if (url.substr(0, 5) != '/gold') {
+
+        if (url.substr(0, '/gold'.length) != '/gold') {
           setCookie(COOKIES.GOLD_BUY_REDIRECT_LABEL, label, expiresDays)
           setCookie(COOKIES.GOLD_BUY_REDIRECT_URL, url , expiresDays)
         }

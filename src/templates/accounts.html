@@ -388,7 +388,7 @@
                 <div class="container flex">
                     <div class="col-xs-12 col-sm-12 col-md-12 cl-white featured-details">
                         {{#if isSignedIn}}
-                            <a href="/account/services" class="button button--cta pull-right ml-1 mt-4">Subscriptions</a>
+                            <a href="/account/services" class="button button--cta pull-right ml-1 mt-4">Manage Subscription</a>
                             {{>account-return-link class="mt-4"}}
                             <h1 class="title uppercase">My Gold Features</h1>
                             {{#if hasGoldAccess}}
@@ -418,11 +418,35 @@
                     </div>
                 </div>
             </div>
-            {{#if hasGoldAccess}}
             <div class="container">
-                <div class="flex flex-pt">
-                    <div class="panel panel--daxrk rewards col-md-6 col-sm-12 col-xs-12">
-                        <h2>Shop Discounts</h2>
+                <div class="flex flex-pt sign-split">
+                    <div class="panel rewards col-md-6 col-sm-12 col-xs-12">
+                        <h2 class="">Current Code</h2>
+                        {{#if hasGoldAccess}}
+                            {{#currentCode}}
+                                <p class="code-description">
+                                    <input class="code" size="32" type="text" value="{{code}}" role="clipboard" />{{>copy-clipboard-button}}
+                                    gets you <span class="discount">{{discountText}}</span>.
+                                    <br /><small>{{#expires}}
+                                    Single use and expires on {{../expiresFormatted}}.
+                                    {{/expires}}
+                                    {{^expires}}
+                                        Single use and does not expire.
+                                    {{/expires}}
+                                    Next code in <span role="countdown" to="{{../nextCodeDate}}" day-label=" day/ days" show-days="1" show-hours="0" show-minutes="0" show-seconds="0"></span>.</small>
+                                </p>
+                            {{/currentCode}}
+                            <div class="button-group">
+                                <a href="https://shop.monstercat.com/?utm_source=gold&utm_campaign=shop_discount" class="button button--cta button--icon" target="_blank">
+                                    Go to Shop
+                                    <i class="fa fa-external-link"></i>
+                                </a>
+                            </div>
+                        {{else}}
+                            <p class="mb-2">Hop on the Gold train to snag your code.</p>
+                            {{>get-gold-cta}}
+                        {{/if}}
+                        <h2 class="mt-2">Shop Discounts</h2>
                         <p>Each month you have Gold you get a new shop discount code. Stay subscribed for bigger discounts.</p>
                         <table class="mt-2 col-md-8 col-xs-12 table-striped">
                             <tr>
@@ -442,59 +466,54 @@
                                 <td>20% off</td>
                             </tr>
                         </table>
+
                     </div>
-                    <div class="col-xs-12 col-md-6 panel" id="shop-codes">
-                        <h2>Current Code</h2>
-                        {{#currentCode}}
-                        <p class="code-description">
-                            <input class="code" size="32" type="text" value="{{code}}" role="clipboard" />{{>copy-clipboard-button}}
-                            gets you <span class="discount">{{discountText}}</span>.
-                            <br /><small>{{#expires}}
-                            Single use and expires on {{../expiresFormatted}}.
-                            {{/expires}}
-                            {{^expires}}
-                                Single use and does not expire.
-                            {{/expires}}
-                            Next code in <span role="countdown" to="{{../nextCodeDate}}" day-label=" day/ days" show-days="1" show-hours="0" show-minutes="0" show-seconds="0"></span>.</small>
-                        </p>
-                        {{/currentCode}}
-                        <div class="button-group">
-                            <a href="https://shop.monstercat.com/?utm_source=gold&utm_campaign=shop_discount" class="button button--cta button--icon" target="_blank">
-                                Go to Shop
-                                <i class="fa fa-external-link"></i>
-                            </a>
-                        </div>
+                    <div class="col-xs-12 col-md-6 panel paragraphs">
+                        <h2>Content Creator Licenses</h2>
+                        <p>Your Gold subscription lets you add licenses to use our music for your YouTube, Twitch, and Mixer channels.</p>
+                        
+                        <a href="/account/licenses" class="button button--cta">Manage Licenses</a>
                     </div>
 
                 </div>
                 <div class="flex sign-split">
-                    <div class="col-xs-12 col-md-6 panel" id="reddit">
+                    <div class="col-xs-12 col-md-6 panel paragraphs" id="reddit">
                         <h2>/r/Monstercat Flair</h2>
-                            {{#self}}
                             <p>Put in your reddit username to get an exclusive <strong>Monstercat Gold</strong> flair on the <a href="https://www.reddit.com/r/monstercat">Monstercat Subreddit</a>.</p>
-                            <form onsubmit="submitSaveRedditUsername(event, this)">
-                                <table class="form mobile" data-set="reddit-flair" trigger-target="saveRedditUsername">
-                                    <tbody>
-                                        <tr>
-                                            <th>reddit username</th>
-                                            <td><input type="text" name="redditUsername" placeholder="Username" value="{{redditUsername}}" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="button-group">
-                                    {{>submit-button text="Save" class=" "}}
-                                </div>
-                            </form>
-                            {{/self}}
+
+                            {{#if hasGoldAccess}}
+                                {{#self}}
+                                <form onsubmit="submitSaveRedditUsername(event, this)">
+                                    <table class="form mobile" data-set="reddit-flair" trigger-target="saveRedditUsername">
+                                        <tbody>
+                                            <tr>
+                                                <th>reddit username</th>
+                                                <td><input type="text" name="redditUsername" placeholder="Username" value="{{redditUsername}}" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="button-group">
+                                        {{>submit-button text="Save" class=" "}}
+                                    </div>
+                                </form>
+                                {{/self}}
+                            {{else}}
+                                {{>get-gold-cta}}
+                            {{/if}}
                     </div>
-                    <div class="col-xs-12 col-md-6 panel">
+                    <div class="col-xs-12 col-md-6 panel  paragraphs">
                         <h2>Gold-only Discord Chat</h2>
-                        <p>Join us on our <a href="https://discord.gg/j8N75GN">Discord server</a> in the exclusive Gold members only chat. Please join the server before using the form below.</p>
-                        {{>join-gold-discord}}
+                        <p>Join us on our <a href="https://discord.gg/j8N75GN">Discord server</a> in the exclusive Gold members only chat.</p>
+
+                        {{#if hasGoldAccess}}
+                            <p>Please join the server before using the form below.</p>
+                            {{>join-gold-discord}}
+                        {{else}}
+                            {{>get-gold-cta}}
+                        {{/if}}
                     </div>
                 </div>
             </div>
-            {{/if}}
         {{/data}}
     </div>
 </script>
@@ -508,7 +527,6 @@
         data-template="account-page"
         >
     <div class="container">
-        <a href="/account/services" class="button button--cta pull-right ml-1">Subscriptions</a>
         {{#data}}
             {{#if hasGoldAccess}}
                 <a href="/account/gold" class="button button--gold-dark pull-right button--icon">
@@ -739,6 +757,14 @@
         </div>
     </form>
     {{/data}}
+</script>
+
+
+<script type="text/template"
+        data-partial
+        data-template="get-gold-cta"
+>
+<a href="/gold/buy" data-redirect-url="auto" class="button button--cta button--gold-dark">Get Gold</a>
 </script>
 
 <script type="text/template"

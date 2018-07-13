@@ -79,27 +79,8 @@ function processLicensingOtherPlatformsPage (args) {
 
 function processLicensingContentCreators (args) {
   const scope = {}
-
-  //Create the split test
-  licensingABTest = new SplitTest({
-    name: 'content-creator-description',
-    dontCheckStarter: true,
-    modifiers: {
-      'control': function () {
-        scope.splitTestControl = true
-        scope.splitTestHeaders = false
-      },
-      'headers': function () {
-        scope.splitTestControl = false
-        scope.splitTestHeaders = true
-      }
-    },
-    onStarted: function () {
-      renderContent(args.template, scope)
-      completedContentCreatorLicensing()
-    }
-  })
-  licensingABTest.start()
+  renderContent(args.template, scope)
+  completedContentCreatorLicensing()
 }
 
 function pickBackground(){

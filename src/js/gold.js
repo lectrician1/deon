@@ -30,7 +30,7 @@ function processSubscriptionsPage (args) {
   scope.hasSubscriptions = hasSubscriptions()
   renderContent('subscriptions-page', scope)
 
-  const tokenType = scope.hasSubscriptions ? "subscriptions" : 'gold'
+  const tokenType = 'subscriptions'
 
   generateXsollaIframeSrc(tokenType, {}, (err, src) => {
     if (err) {
@@ -61,6 +61,7 @@ function processGoldBuyPage (args) {
   renderContent('gold-buy-page', scope)
 
   const redirectTo = getCookie(COOKIES.GOLD_BUY_REDIRECT_URL)
+  console.log('redirectTo', redirectTo);
   const opts =  {}
 
   if (redirectTo) {
