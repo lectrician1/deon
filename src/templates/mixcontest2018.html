@@ -10,7 +10,7 @@
 <div class="top-banner">
 
 	<div class="banner banner--scaled">
-	    <div class="banner" style='background-image:url(img/mixcontest2018.jpg)'>
+	    <div class="banner" style='background-image:url(img/mc2018-banner.png)'>
 	        <div class="banner-shade"></div>
 	        <div class="gradient"></div>
 	    </div>
@@ -87,67 +87,67 @@
 
 
         <div class="container mixcontest">
-			<div class="flex sign-split">
-		        <div class="col-xs-12 col-md-4 panel vote">
-		        	<h2>
-		        	{{#if votingOpen}}
-		        		{{#if hasVoted}}
-		        			You've already voted!
-		        		{{else}}
-		        			{{poll.question}}
-		        		{{/if}}
-		        	{{else}}
-		        		The voting hasn't started yet!
-		        	{{/if}}</h2>
-
-		        	{{#if votingOpen}}
+        	<div class="flex mc2018-flex">
+				<div class="col-xs-12 col-md-6 panel vote">
+					
+					{{#if votingOpen}}
+						{{#if hasVoted}}
+							<h2>You've already voted!</h2>
+						{{else}}
+							<h2>{{poll.question}}</h2>
+						{{/if}}
+					{{else}}
+						<h2>The voting hasn't started yet!</h2>
+						<p>Voting opens in:
+							<div class="countdown" show-days="1" role="countdown" to="{{poll.start}}"></div>
+							</p>
+					{{/if}}
+				
+					{{#if votingOpen}}
 						<div class="voting-area">
 							{{#if hasVoted}}
-								<p>Thanks for voting! Stay tuned for the next round.</p>
+							<p>Thanks for voting! Stay tuned for the next round.</p>
 							{{else}}
-								<p>Voting closes in: 
-									<div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div> <br>
-								</p>
-								<form onsubmit="submitMixContestVotes2018(event)">
-									<ul class='poll'>
+							<p>Voting closes in:
+								<div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div>
+							</p>
+							<form onsubmit="submitMixContestVotes2018(event)">
+								<ul class='poll'>
 									{{#each poll.choices}}
-										<li><label><input type="checkbox" name="choices[{{@index}}]" id="checkbox" class=check"> {{.}}</input></label></li>
+									<li><label><input type="checkbox" name="choices[{{@index}}]" id="checkbox" class=check"> {{.}}</input></label></li>
 									{{/each}}
-									</ul>
+								</ul>
 								{{#if loggedIn}}
-									<button>Submit</button>
+								<button>Submit</button>
 								{{else}}
-									<a href="/sign-in">sign in</a>
+								<a href="/sign-in">sign in</a>
 								{{/if}}
 							{{/if}}
-								</form>
+							</form>
 						</div>
 					{{else}}
-
-					{{#if showStartDate}}
-						<p>Voting opens in:  
-						<div class="countdown" show-days="1" role="countdown" to="{{poll.start}}"></div>
 					{{/if}}
-				{{/if}}
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 article-details mc2018-newsletter">
+				<div class="article-wrapper">
+					<h2 class="line-top">Sign up to the Pioneer DJ Newsletter</h2>
+					<a class="button button--black button--icon" href="/">
+						Sign Up
+						<i class="fa fa-chevron-right"></i>
+					</a>
 				</div>
+			</div>
+		</div>
 
-				<div class="col-xs-12 col-md-4 panel">
-					<h2>Made Possible By</h2>
-					<div class="row">
-					</div>
-					<h3>Sign up to the Pioneer DJ Newsletter</h3><br>
-					<a href="#" class="button button--black">Sign Up</a>
-				</div>
-			</div>	
 	{{/if}}	
-    <div class="footer-cta footer-cta--sponsor cl-white">
+    <div class="mc2018-cta mc2018-cta--sponsor cl-white">
         <h2>Made Possible By</h2>
         <img src="img/mc2018-splice.png">
         <img src="img/mc2018-pioneerdj.png">
         <img src="img/mc2018-cotw.png">
         <img src="img/mc2018-monstercat.png">
     </div>
-		    <section class="podcast" style="margin-top:1rem">
+		    <section class="podcast">
 		    	<header class="flex top-cta">
 					<div class="col-xs-6">
 						<h2 class="line-top">Radio Show</h2>
@@ -167,4 +167,5 @@
 		    </section>
 
 		</div>
+	</div>
 </script>

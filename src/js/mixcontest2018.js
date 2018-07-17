@@ -37,10 +37,9 @@ function processMixContest2018Page (args) {
     mixedContestScope.showStartDate = (!status.ended && !status.open) ? true : false
 
     // if voting is open
-    mixedContestScope.votingOpen = (status.open == true) ? true : true
+    mixedContestScope.votingOpen = (status.open == true) ? true : false
 
     // if user has voted
-    status.canVote = true // to show the poll even if account has already voted
     mixedContestScope.hasVoted = (status.canVote == true) ? false : true
 
     renderContent('mixcontest2018', mixedContestScope)
@@ -100,6 +99,7 @@ function submitMixContestVotes2018(e) {
   const form = e.target
   const data = formToObject(form)
 
+  console.log("hey!")
   console.log('data', data)
 
   const choiceIndexes = []
