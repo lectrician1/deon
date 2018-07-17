@@ -1,11 +1,11 @@
 const currentPollID = '5b3fa9d9fe37f5d18dea1dd3'
 
 let mixPoll = {}
-const mixedContestScope = {}
+const mixContestScope = {}
 const currentMixReleaseId = '5b3d35ea9b8d3a0a7270548c'
 
 function processMixContest2018Page (args) {
-  renderContent('mixcontest2018', mixedContestScope)
+  renderContent('mixcontest2018', mixContestScope)
   requestJSON({
     url: endpoint + '/poll/' + currentPollID + '/breakdown'
   }, (err, result) => {
@@ -16,31 +16,32 @@ function processMixContest2018Page (args) {
     const status = result.status
 
     mixPoll = result.poll
-    mixedContestScope.loading = false
-    mixedContestScope.poll = mixPoll
-    mixedContestScope.loggedIn = isSignedIn()
-    mixedContestScope.hasVoted = status.voted
-    mixedContestScope.backgroundImg = '/img/mixcontest.jpg'
-    mixedContestScope.art = 'https://assets.monstercat.com/releases/covers/cotw-205.jpg?image_width=512'
-    mixedContestScope.titleName = 'Mix Contest 2018'
-    mixedContestScope.artists = 'Artist'
+    mixContestScope.loading = false
+    mixContestScope.poll = mixPoll
+    mixContestScope.loggedIn = isSignedIn()
+    mixContestScope.hasVoted = status.voted
+    mixContestScope.backgroundImg = '/img/mixcontest.jpg'
+    mixContestScope.art = 'https://assets.monstercat.com/releases/covers/cotw-205.jpg?image_width=512'
+    mixContestScope.titleName = 'Mix Contest 2018'
+    mixContestScope.artists = 'Artist'
 
-    mixedContestScope.track = {
+    mixContestScope.track = {
       loading: true
     }
 
-    mixedContestScope.cotwEpisodes = {
+    mixContestScope.cotwEpisodes = {
       loading: true
     }
 
     // if counting down to start date
-    mixedContestScope.showStartDate = (!status.ended && !status.open)
+    mixContestScope.showStartDate = (!status.ended && !status.open)
 
     // if voting is open
-    mixedContestScope.hasVoted = status.voted
-    mixedContestScope.votingOpen = status.open
+    mixContestScope.hasVoted = status.voted
+    mixContestScope.votingOpen = status.open
+    mixContestScope.canVote = status.canVote
 
-    renderContent('mixcontest2018', mixedContestScope)
+    renderContent('mixcontest2018', mixContestScope)
     startCountdownTicks()
 
     //https://connect.monstercat.com/api/catalog/browse/?albumId=5b3d35ea9b8d3a0a7270548c
@@ -51,12 +52,9 @@ function processMixContest2018Page (args) {
         toasty(Error(err))
         return
       }
-      console.log(result)
 
       const tracks = transformTracks(result.results)
-
       const trackEl = findNode('[role="mixcontest2018-track"]')
-
       const background =  '/img/mixcontest.jpg'
 
       betterRender('mixcontest2018-track', trackEl, {
@@ -84,7 +82,6 @@ function processMixContest2018Page (args) {
 
       episodesScope.podcasts.length = 6
       betterRender('mixcontest2018-cotw-episode', cotwEl, episodesScope)
-      console.log(episodesScope)
     })
   })
 
@@ -96,13 +93,9 @@ function submitMixContestVotes2018(e) {
   const form = e.target
   const data = formToObject(form)
 
-  console.log("hey!")
-  console.log('data', data)
-
   const choiceIndexes = []
 
   data.choices.forEach((checked, index) => {
-    console.log(index + ' ' + checked)
     if (checked) {
       choiceIndexes.push(index)
     }
@@ -113,7 +106,7 @@ function submitMixContestVotes2018(e) {
     return
   }
   if (choiceIndexes.length < 1){
-    toasty(Error('Too Few!'))
+    toasty(Error('Too few!'))
     return
   }
 
@@ -133,8 +126,8 @@ function submitMixContestVotes2018(e) {
 
     toasty("Success, your vote has been submitted.")
 
-    mixedContestScope.hasVoted = true
-    renderContent('mixcontest2018', mixedContestScope)
+    mixContestScope.hasVoted = true
+    renderContent('mixcontest2018', mixContestScope)
   })
 }
 

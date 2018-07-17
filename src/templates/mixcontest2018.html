@@ -62,7 +62,7 @@
     >
 
 {{#if loading}}
-        {{>loading-view-black}}
+  {{>loading-view-black}}
 {{else}}
   {{>podcast-list}}
 {{/if}} 
@@ -70,100 +70,102 @@
 </script>
 
 <script type="text/html"
-    data-route="mixcontest2018"
-    data-process="processMixContest2018Page"
-    data-template="mixcontest2018"
-    >
+        data-route="mixcontest2018"
+        data-process="processMixContest2018Page"
+        data-template="mixcontest2018"
+        >
 
-  {{#if loading}}
-        {{>loading-view-black}}
-    {{else}}
-
-            <div role="mixcontest2018-track">
-            {{#track}}
-              {{>mixcontest2018-track}}
-            {{/track}}
-            </div>
-
-
-        <div class="container">
-          <div class="panel flex text center mc2018">
-            <div class="col-xs-12 col-md-6 text left">
-              <div style="">
-              {{#if votingOpen}}
-                {{#if hasVoted}}
-                  <h2>You've already voted!</h2>
-          {{else}}
+{{#if loading}}
+  {{>loading-view-black}}
+{{else}}
+  <div role="mixcontest2018-track">
+    {{#track}}
+      {{>mixcontest2018-track}}
+    {{/track}}
+  </div>
+  <div class="container">
+    <div class="panel flex text center mc2018">
+      <div class="col-xs-12 col-md-6 text left">
+        <div>
+          {{#if votingOpen}}
+            {{#if hasVoted}}
+            <h2>You've already voted!</h2>
+            {{else}}
             <h2>{{poll.question}}</h2>
-          {{/if}}
-        {{else}}
+            {{/if}}
+          {{else}}
           <h2>The voting hasn't started yet!</h2>
           <p>Voting opens in:
             <div class="countdown" show-days="1" role="countdown" to="{{poll.start}}"></div>
           </p>
-        {{/if}}
+          {{/if}}
 
-        {{#if votingOpen}}
-          <div class="voting-area">
-            {{#if hasVoted}}
-              <p>Thanks for voting! Stay tuned for the next round.</p>
-            {{else}}
-              <p>Voting closes in:
-                <div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div>
-              </p>
-              <form onsubmit="submitMixContestVotes2018(event)">
-                <ul class='poll'>
-                  {{#each poll.choices}}
-                    <li><label><input type="checkbox" name="choices[{{@index}}]" id="checkbox" class=check"> {{.}}</input></label></li>
-                  {{/each}}
-                </ul>
-                {{#if loggedIn}}
-                  <button>Submit</button>
-                {{else}}
-                  <a href="/sign-in">sign in</a>
-                {{/if}}
-              </form>
-            {{/if}}
-          </div>
-        {{/if}}
-        {{/if}}
-        </div>  
+          {{#if votingOpen}}
+            <div class="voting-area">
+              {{#if hasVoted}}
+                <p>Thanks for voting! Stay tuned for the next round.</p>
+              {{else}}
+                <p>Voting closes in:
+                  <div class="countdown" show-days="1" role="countdown" to="{{poll.end}}"></div>
+                </p>
+                <form onsubmit="submitMixContestVotes2018(event)">
+                  <ul class='poll'>
+                    {{#each poll.choices}}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="choices[{{@index}}]" id="checkbox" class="check"> {{.}}
+                      </label>
+                    </li>
+                    {{/each}}
+                  </ul>
+                  {{#if loggedIn}}
+                    <button>Submit</button>
+                  {{else}}
+                    <a href="/sign-in">sign in</a>
+                  {{/if}}
+                </form>
+              {{/if}}
             </div>
-            <div class="col-xs-12 col-md-6  mc2018-cta--sponsor cl-white">
-                <h2>Follow our Sponsors</h2>
-                <div class="button-group button-group--multiple">
-                  <a class="button button--mc2018" href="https://splice.com/" alt="splice">
-                    <img src="img/mc2018-splice.png"></a>
-                    <a class="button button--mc2018" href="https://www.facebook.com/PioneerDJusa/" alt="PioneerDJ"> 
-                      <img src="img/mc2018-pioneerdj.png"></a>
-                    <a class="button button--mc2018" href="https://www.monstercat.com/compound" alt="Compound">
-                      <img src="img/mc2018-compound.png"></a>
-                    <a class="button button--mc2018" href="https://monstercat.lnk.to/COTW" alt="CotW">
-                      <img src="img/mc2018-cotw.png"></a>
-                    </div>
-                    <img class="" src="img/mc2018-monstercat.png" alt="Monstercat">
-                </div>
-            </div>
-
-        <section class="podcast">
-          <header class="flex top-cta">
-          <div class="col-xs-6">
-            <h2 class="line-top">Radio Show</h2>
-          </div>
-          <div class="col-xs-6 text right">
-            <a href="/cotw" class="button button--black button--icon button--transparent">
-              View all
-              <i class="fa fa-chevron-right"></i>
-            </a>
-          </div>
-        </header>
-        <div role="mixcontest-cotw-episodes">
-          {{#cotwEpisodes}}
-            {{>mixcontest2018-cotw-episode}}
-          {{/cotwEpisodes}}
+          {{/if}}
         </div>
-        </section>
-
+      </div>
+      <div class="col-xs-12 col-md-6  mc2018-cta--sponsor cl-white">
+        <h2>Follow our Sponsors</h2>
+        <div class="button-group button-group--multiple">
+          <a class="button button--mc2018" href="https://splice.com/" alt="splice">
+            <img src="img/mc2018-splice.png">
+          </a>
+          <a class="button button--mc2018" href="https://www.facebook.com/PioneerDJusa/" alt="PioneerDJ"> 
+            <img src="img/mc2018-pioneerdj.png">
+          </a>
+          <a class="button button--mc2018" href="https://www.monstercat.com/compound" alt="Compound">
+            <img src="img/mc2018-compound.png">
+          </a>
+          <a class="button button--mc2018" href="https://monstercat.lnk.to/COTW" alt="CotW">
+            <img src="img/mc2018-cotw.png">
+          </a>
+        </div>
+        <img class="" src="img/mc2018-monstercat.png" alt="Monstercat">
+      </div>
     </div>
+    <section class="podcast">
+      <header class="flex top-cta">
+        <div class="col-xs-6">
+          <h2 class="line-top">Radio Show</h2>
+        </div>
+        <div class="col-xs-6 text right">
+          <a href="/cotw" class="button button--black button--icon button--transparent">
+            View all
+            <i class="fa fa-chevron-right"></i>
+          </a>
+        </div>
+      </header>
+      <div role="mixcontest-cotw-episodes">
+        {{#cotwEpisodes}}
+          {{>mixcontest2018-cotw-episode}}
+        {{/cotwEpisodes}}
+      </div>
+    </section>
   </div>
+{{/if}}
 </script>
