@@ -1,22 +1,36 @@
-ul.poll li{
+.voting-area li{
 	list-style: none;
 	margin-bottom: 5px;
 }
 
-.mixcontest ul{
+.voting-area ul{
 	margin-bottom: 1.5rem;
 }
 
-.panel ul, .panel ol{
+.voting-area ul, .voting-area ol{
 	padding-left: 0px;
 	text-align: left
 }
-.vote{
-	min-height: 225px
+
+.mc2018{
+	margin-top:3rem;
+	margin-bottom:1rem;
 }
 
-.vote p, .vote.panel{
-	text-align: center
+.mc2018 label{
+	font-size: 18px;
+}
+.mc2018 h2, .mc2018 p, .mc2018 .countdown, .mc2018 .voting-area{
+	margin-right:1rem;
+	text-align: center;
+}
+
+.mc2018 h2{
+	margin-top:1rem;
+}
+
+.mc2018 .countdown, .mc2018 button{
+	margin-bottom: 1.5rem;
 }
 
 .mixcontest2018-cotw .push-right a{
@@ -27,23 +41,12 @@ ul.poll li{
 	margin-top:1rem;
 }
 
-.mc2018-flex{
-	margin-top: 2rem;
-}
 .mc2018-comingsoon {
   background: #222 url('/../img/mc2018-banner.png');
   background-size: cover;
   padding: 4rem 2rem;
 }
 
-.mc2018-newsletter h2{
-	margin-bottom: 1rem;
-}
-
-.mc2018-cta{
-  padding: 4rem 0;
-  position: relative;
-}
 
 .mc2018-cta--sponsor {
   background: #222 url('/../img/sponsor.jpg');
@@ -53,7 +56,16 @@ ul.poll li{
   margin-bottom: 1rem;
 }
 
-.mc2018-cta h2{
-  margin-bottom: 1rem;
-  text-align:center;
+.mc2018-cta--sponsor .button-group{
+	margin-bottom: 1rem;
+}
+
+.button--mc2018{
+	border-color: #ddd;
+	background: transparent;
+}
+.button--mc2018:active,
+.button--mc2018:hover{
+	opacity: 0.5;
+	background: transparent;
 }
