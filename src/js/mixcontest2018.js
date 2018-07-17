@@ -34,13 +34,11 @@ function processMixContest2018Page (args) {
     }
 
     // if counting down to start date
-    mixedContestScope.showStartDate = (!status.ended && !status.open) ? true : false
+    mixedContestScope.showStartDate = (!status.ended && !status.open)
 
     // if voting is open
-    mixedContestScope.votingOpen = (status.open == true) ? true : false
-
-    // if user has voted
-    mixedContestScope.hasVoted = (status.canVote == true) ? false : true
+    mixedContestScope.hasVoted = status.voted
+    mixedContestScope.votingOpen = status.open
 
     renderContent('mixcontest2018', mixedContestScope)
     startCountdownTicks()
@@ -64,7 +62,6 @@ function processMixContest2018Page (args) {
       betterRender('mixcontest2018-track', trackEl, {
         loading: false,
         data: tracks[0]
-
       })
     })
 
