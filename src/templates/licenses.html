@@ -4,27 +4,150 @@
         data-process="processAccountLicensesPage"
         data-template="account-licenses-page"
         >
-<div class="container">
-  <div class="panel">
-    <h1>Your Licenses</h1>
-    {{#data}}
-      {{#if licenses.length}}
-        <ul>
-          {{#each licenses}}
-            <li>{{vendor}}{{identity}}</li>
-          {{/each}}
-        </ul>
+<div class="container container--gold">
+  <div class="flex">
+    <div class="panel col-md-4 col-xs-12 panel--dark col-md-last">
+      <h2>Gold Membership</h2>
+
+      {{#if hasGold}}
+      <h2 class="pricing pricing--gold">Gold Active</h2>
       {{else}}
-        No licenses.
+      <h2 class="pricing pricing--gold">$5/month</h2>
+      <p class="mb-2">Monstercat Gold Membership allows you to download any of the music in FLAC, MP3, and WAV formats.</p>
+      <ul class="mb-2">
+        <li>Whitelist up to 10 channels</li>
+        <li>Unlimited download and streaming access to the Monstercat catalog (800+ full songs)</li>
+        <li>Direct support via e-mail and on site.</li>
+      </ul>
       {{/if}}
-    {{/data}}
+
+
+      {{#if hasGold}}
+      
+      {{else}}
+      <a class="button button--gold-light" href="/gold/buy" test-kpi="download-access" click-label="Download Access" click-action="Click Get Gold" click-category="Gold" target="_BLANK">
+        Get Gold - $5/MO
+      </a>
+      {{/if}}
+    </div>
+
+    <div class="panel col-md-8 col-xs-12">
+      <div class="flex">
+        <div class="col-sm-6 col-xs-8">
+          <h2>Your Licenses</h2>
+        </div>
+
+        <div class="col-sm-6 col-xs-4 mb-3" style="text-align: right">  
+          <button id="license-add-btn">
+                      <span class="add-channel">Add Channel</span> <i class="fa fa-plus"></i></button>
+        </div>
+      </div>
+      <p class="mb-3" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fringilla ipsum quis lorem luctus, ut aliquam ex consectetur. Duis tortor erat, mollis ac sem dignissim, hendrerit sollicitudin magna. Fusce vel augue at mauris rhoncus porta ac vitae sapien.</p>
+      <div class="license-legend mb-3">
+        <p><i class="fa fa-check icon--blue"></i> Any videos uploaded while Gold is active will never receive a claim from us.</p>
+        <p><i class="fa fa-calendar-check-o icon--blue"></i> Videos uploaded on or before the date will not receive claims.</p>
+        <p><i class="fa fa-exclamation-triangle icon--blue"></i> Channel ineligible for whitelist. Check FAQ.</p>
+      </div>
+      <div class="license-form" style="margin-top:0px">
+        <form onsubmit="submitAddLicense(event, this)">
+
+          <div class="flex">
+            <div class="col-sm-3 col-xs-12">
+              <select name="vendor" class="license-select">
+                  <option value="" disabled selected>Platform</option>
+                  <option value="YouTube">YouTube</option>
+                  <option value="Twitch">Twitch</option>
+                  <option value="Beam">Mixer</option>
+              </select>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+              <select name="category" class="license-select">
+                  <option value="" disabled selected>Purpose</option>
+                  <option value="music">Music Channel</option>
+                  <option value="business">Business</option>
+                  <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <input type="text" name="identity" placeholder="Channel ID" class="license-field">      
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              {{>submit-button}}
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <table class="license-table mb-2">
+        <thead>
+            <tr>
+              <th style="width:100px">Platform</th>
+              <th>Channel ID</th>
+              <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+          {{#data}}
+            {{#if licenses.length}}
+              {{#each licenses}}
+                <tr>
+                  <td>{{vendor}}</td>
+                  <td>{{identity}}</td>
+                  <td><i class="fa fa-check icon--blue"></i></td>
+                  <td class="push-right text right">
+                    <button class="faux button--mobile">
+                      <i class="fa fa-copyright"></i>
+                    </button>
+                    <button class="faux button--mobile">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>{{vendor}}</td>
+                  <td>{{identity}}</td>
+                  <td><i class="fa fa-calendar-check-o icon--blue"></i> Before March 3rd, 2018. Get Gold.</td>
+                  <td class="push-right text right">
+                    <button class="faux button--mobile">
+                      <i class="fa fa-copyright"></i>
+                    </button>
+                    <button class="faux button--mobile">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>{{vendor}}</td>
+                  <td>{{identity}}</td>
+                  <td><i class="fa fa-exclamation-triangle icon--blue" aria-hidden="true"></i></td>
+                  <td class="push-right text right">
+                    <button class="faux button--mobile">
+                      <i class="fa fa-copyright"></i>
+                    </button>
+                    <button class="faux button--mobile">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+              {{/each}}
+              {{else}}
+                No Licenses.
+              {{/if}}
+            {{/data}}
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="panel">
+
+<!--<div class="panel">
     <h2>Add a License</h2>
     <form onsubmit="submitAddLicense(event, this)">
     <select name="vendor">
-      <option value=""></option>
+      <option value="Test"> test</option>
       <option value="YouTube">YouTube</option>
       <option value="Twitch">Twitch</option>
       <option value="Beam">Mixer</option>
@@ -41,5 +164,8 @@
       {{>submit-button}}
     </form>
   </div>
+-->
 </div>
 </script>
+
+

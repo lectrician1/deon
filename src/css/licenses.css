@@ -1,0 +1,195 @@
+.license-buttons{
+	text-align: right
+}
+
+/* FORM */
+
+select.license-select{	
+	height:37px;
+	width:95%;
+	margin:0.3rem 0;
+}
+
+.license-field{
+	width:95%;
+	height:37px;
+	margin:0.3rem 0;
+}
+
+.license-form{
+	margin-bottom: 2rem;
+	position:absolute;
+	opacity: 0;
+}
+
+.license-form-display{
+  position: static;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+  padding:1rem;
+  background: #f5f5f5;
+}
+
+
+/* White Fields */
+
+select.license-select,
+input.license-field{
+	background: #fff
+}
+
+.license-x{
+	width:10px;
+}
+
+.x-btn{
+	font-size:0px;
+	width: 0;
+	padding: 5px 10px;
+	background: #e23333;
+	text-align: center;
+	transition: 0.3s linear;
+	opacity: 0;
+}
+
+tr:hover .x-btn{
+	font-size:16px;
+	width:40px;
+	opacity:1.0;
+}
+
+
+th.license-x, td.license-x{
+	padding-left:0px;
+	padding-right:0px
+}
+
+.license-form button.button--cta{
+	margin: 0.3rem 0;
+    width: 95%;
+    padding:0.5rem;
+}
+
+/* ADD CHANNEL */
+@media screen and (max-width: 760px){
+	.add-channel{
+		display:none;
+	}
+
+	.license-field,
+	select.license-select,
+	.license-form button.button--cta{
+		width:100%;
+	}
+}
+
+  @media
+    only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+    /* Force table to not be like tables anymore */
+    
+    table.license-table, .license-table thead, .license-table tbody, .license-table th, .license-table td, .license-table tr {
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .license-table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    .license-table tr:nth-child(odd) {
+      background: #ccc;
+    }
+    
+    .license-table td {
+      /* Behave  like a "row" */
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      word-wrap: break-word;
+
+    }
+
+    .license-table td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    .license-table td:nth-of-type(1):before {
+    	content: "Platform";
+    	font-weight:bolder;
+    }
+    .license-table td:nth-of-type(2):before {
+    	content: "Channel ID";
+    	font-weight:bolder;
+    }
+    .license-table td:nth-of-type(3):before {
+    	content: "Status";
+    	font-weight:bolder;}
+
+    .license-table a.button--mobile, button.button--mobile {
+    padding: 0px;
+    font-size: 16px;
+	}
+  }
+
+
+@keyframes myAnimation {
+   0% {
+      opacity: 0;
+      transform: scale(0, 0);
+   }
+   25% {
+      opacity: 1;
+      transform: scale(1, 1);
+   }
+   50% {
+      transform: translate(100px, 0);
+   }
+   100% {
+      transform: translate(100px, 100px);
+   }
+}
+
+/* Gold Section */
+.container--gold .panel--dark{
+	background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)), url(/img/banner.jpg);
+	background-position: center;
+}
+
+
+.container--gold .button--gold-light{
+	text-decoration: none
+}
+
+.container--gold ul {
+    margin-left: 1.1rem;
+}
+
+.pricing.pricing--gold {
+    color: gold;
+}
+
+
+/* Form Icons */
+
+.license-legend{
+
+}
+
+i.icon--blue{
+	color: dodgerblue	;
+}
+
+.license-table td.push-right > *{
+	margin-right: 0;
+}
