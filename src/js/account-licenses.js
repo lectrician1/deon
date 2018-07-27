@@ -7,10 +7,11 @@ function processAccountLicensesPage (args) {
     transform: function (args) {
       return {
         licenses: args.result.results,
-        hasGoldAccess: hasGoldAccess(),
+        hasGoldAccess: true,
         isSignedIn: isSignedIn()
       }
     },
+
     completed: function () {
       const qs = searchStringToObject()
       if (qs.vendor) {
@@ -19,6 +20,16 @@ function processAccountLicensesPage (args) {
       if (qs.identity) {
         findNode('[name=identity]').value = qs.identity
       }
+
+      const addLicenseBtn = findNode('#license-add-btn')
+
+      const addLicenseForm = findNode('.license-form')
+
+      function toggleAddLicense() {
+        addLicenseForm.classList.toggle("license-form-display")
+      }
+      addLicenseBtn.addEventListener("click", toggleAddLicense)
+
     }
   })
 }
@@ -31,3 +42,5 @@ function submitAddLicense (e) {
     withCredentials: true
   })
 }
+
+//addLicenseBtn.addEventListener("click", toggleAddLicense)

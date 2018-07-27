@@ -71,7 +71,7 @@ th.license-x, td.license-x{
 }
 
 /* ADD CHANNEL */
-@media screen and (max-width: 760px){
+@media screen and (max-width: 765px){
 	.add-channel{
 		display:none;
 	}
@@ -81,6 +81,7 @@ th.license-x, td.license-x{
 	.license-form button.button--cta{
 		width:100%;
 	}
+
 }
 
   @media
@@ -88,13 +89,10 @@ th.license-x, td.license-x{
     and (max-width: 760px), (min-device-width: 768px) 
     and (max-device-width: 1024px)  {
 
-    /* Force table to not be like tables anymore */
-    
     table.license-table, .license-table thead, .license-table tbody, .license-table th, .license-table td, .license-table tr {
       display: block;
     }
 
-    /* Hide table headers (but not display: none;, for accessibility) */
     .license-table thead tr {
       position: absolute;
       top: -9999px;
@@ -142,24 +140,6 @@ th.license-x, td.license-x{
 	}
   }
 
-
-@keyframes myAnimation {
-   0% {
-      opacity: 0;
-      transform: scale(0, 0);
-   }
-   25% {
-      opacity: 1;
-      transform: scale(1, 1);
-   }
-   50% {
-      transform: translate(100px, 0);
-   }
-   100% {
-      transform: translate(100px, 100px);
-   }
-}
-
 /* Gold Section */
 .container--gold .panel--dark{
 	background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)), url(/img/banner.jpg);
@@ -182,14 +162,51 @@ th.license-x, td.license-x{
 
 /* Form Icons */
 
-.license-legend{
+.license-legend tr:nth-child(odd) > td{
+	background: white;
+}
+
+.license-legend td{
+	padding: 0.3em 0.5em 0.3em 0.1em;
 
 }
 
 i.icon--blue{
-	color: dodgerblue	;
+	color: dodgerblue;
 }
 
 .license-table td.push-right > *{
 	margin-right: 0;
+}
+
+/* Cog Dropdown */: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .button--gold-light{
+	background: goldenrod;
 }
